@@ -1,6 +1,8 @@
 # TEA5767-Library
 Arduino Library for the TEA5767 Radio Module
 
+Neste fork, foi implementado a function setMono().
+
 ## Supported Functions:
  - short: init(short minlvl)            //Initialize Bus and search for Stations
  - bool:  setFrequency(float frequency) //Set Radio Frequency
