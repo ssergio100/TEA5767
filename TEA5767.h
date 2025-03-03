@@ -16,7 +16,7 @@ private:
 	int _addr;
 	short _lvl, _rdy, _sel, _staCnt;
 	byte _freqH, _freqL;
-	bool _muted, _search, _up, _stby, _snc, _stereo; _mono;
+	bool _muted, _search, _up, _stby, _snc, _stereo, _mono;
 	float _stations[20];
 	
 	void send();
