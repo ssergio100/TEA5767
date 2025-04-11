@@ -15,15 +15,21 @@ TEA5767::TEA5767(){
 	_freqH = 0x00; _freqL = 0x00;
 	_muted = false; _search = false; _up = true; 
 	_stby = false; _snc = true; _mono = false; _snc = false;
+	_softMute = false;
 }
 
 //Send Data to the Module
 void TEA5767::send(){  	
 	Wire.beginTransmission(_addr); 
+	//byte 1
 	Wire.write((_muted << 7) | (_search << 6) | _freqH);
+	//byte 2
 	Wire.write(_freqL);
+	//byte 3
 	Wire.write((_up << 7) | (_lvl & 0x3 << 5) |( _mono << 3)| 0x10);
-	Wire.write(0x10 | (_stby << 6) | (_snc << 1));
+	//byte 4
+	Wire.write(0x10 | (_stby << 6) | (_snc << 1) | ( _softMute << 3));
+	//byte 5
 	Wire.write(0x00);
 	Wire.endTransmission();
 }
@@ -74,6 +80,12 @@ void TEA5767::setMuted(bool muted){
 	_muted = muted;	
 	send();
 }
+
+void TEA5767::setSoftMute(bool softMute){
+	_softMute = softMute;	
+	send();
+}
+
 void TEA5767::setMono(bool mono){
 	_mono = mono;	
 	send();
