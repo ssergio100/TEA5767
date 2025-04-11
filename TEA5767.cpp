@@ -13,7 +13,8 @@ TEA5767::TEA5767(){
 	_addr = 0x60;
 	_lvl = 2; _sel = 0; _staCnt = 0;
 	_freqH = 0x00; _freqL = 0x00;
-	_muted = false; _search = false; _up = true; _stby = false; _snc = true; _mono = false;
+	_muted = false; _search = false; _up = true; 
+	_stby = false; _snc = true; _mono = false; _snc = false;
 }
 
 //Send Data to the Module
@@ -22,7 +23,7 @@ void TEA5767::send(){
 	Wire.write((_muted << 7) | (_search << 6) | _freqH);
 	Wire.write(_freqL);
 	Wire.write((_up << 7) | (_lvl & 0x3 << 5) |( _mono << 3)| 0x10);
-	Wire.write(0x10 | (_stby << 6));
+	Wire.write(0x10 | (_stby << 6) | (_snc << 1));
 	Wire.write(0x00);
 	Wire.endTransmission();
 }
@@ -87,6 +88,12 @@ bool TEA5767::setSearch(bool up, int level){
 	//send();
 	return true;
 }
+// Ativa ou desativa o Stereo Noise Cancelling (SNC)
+void TEA5767::setSNC(bool snc){
+	_snc = snc;	
+	send();
+}
+
 void TEA5767::setStandby(bool stby){
 	_stby = stby;	
 	send();
